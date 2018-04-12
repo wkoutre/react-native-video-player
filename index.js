@@ -190,9 +190,15 @@ export default class VideoPlayer extends Component {
     this.setState({ progress: 1 });
 
     if (!this.props.loop) {
-      this.setState({ isPlaying: false }, () => this.player.seek(0));
+      this.setState({ isPlaying: false }, () => {
+        if (this.player) {
+          this.player.seek(0);
+        }
+      });
     } else {
-      this.player.seek(0);
+      if (this.player) {
+        this.player.seek(0);
+      }
     }
   }
 
@@ -277,7 +283,9 @@ export default class VideoPlayer extends Component {
       progress
     });
 
-    this.player.seek(progress * this.state.duration);
+    if (this.player) {
+      this.player.seek(progress * this.state.duration);
+    }
   }
 
   getSizeStyles() {
@@ -320,7 +328,9 @@ export default class VideoPlayer extends Component {
   }
 
   seek(t) {
-    this.player.seek(t);
+    if (this.player) {
+      this.player.seek(t);
+    }
   }
 
   stop() {
